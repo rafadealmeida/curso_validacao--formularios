@@ -14,11 +14,20 @@ export function valida (input){
 
     if (input.validity.valid){
         input.parentElement.classList.remove('input-container--invalido')
+        input.parentElement.querySelector('.input-mensagem-erro').innerHTML = ''
     } else{
-
+        
         input.parentElement.classList.add('input-container--invalido')
+        input.parentElement.querySelector('.input-mensagem-erro').innerHTML = mostraMensagem(tipoDeInput,input)
     }
 }
+
+const tipoDeErro = [
+    'valueMissing',
+    'typeMismatch',
+    'patternMismatch',
+    'customError'
+]
 
 const mensagemDeErro = {
     nome:{
@@ -41,9 +50,23 @@ const mensagemDeErro = {
 }
 
 
+function mostraMensagem(tipoDeInput,input) {
+    let mensagem ='';
+
+    tipoDeErro.forEach(erro =>{
+        if(input.validity[erro]){
+            mensagem = mensagemDeErro[tipoDeInput][erro]
+        }
+    })
+
+    return mensagem
+}
+
+
 const validadores = {
     dataNascimento:input => validaDataNascimento(input)
 }
+
 
 function validaDataNascimento(input){
    const dataRecebida = new Date(input.value);
