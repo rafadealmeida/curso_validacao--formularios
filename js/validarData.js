@@ -31,7 +31,7 @@ const mensagemDeErro = {
     },
     senha:{
         valueMissing:'O campo nome não pode está vazio',
-        patternMisMatch:'Este campo deve conter pelo menos 1 letra Maiúscula ,1 número e não pode conter símbolos'
+        patternMismatch:'Este campo deve conter pelo menos 1 letra Maiúscula ,1 número e não pode conter símbolos'
     },
     dataNascimento:{
         valueMissing:'O campo nome não pode está vazio',
