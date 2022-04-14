@@ -1,15 +1,9 @@
-const dataNascimento = document.querySelector('#nascimento');
-
-dataNascimento.addEventListener('blur', (evento) => {
-    validaDataNascimento(evento.target)
-})
-
 
 export function valida (input){
     const tipoDeInput = input.dataset.tipo
 
-    if (validaDataNascimento[tipoDeInput]) {
-        validaDataNascimento[tipoDeInput](input)
+    if (validadores[tipoDeInput]) {
+        validadores[tipoDeInput](input)
     }
 
     if (input.validity.valid){
@@ -39,14 +33,22 @@ const mensagemDeErro = {
         typeMismatch:'O email digitado não é valido'
     },
     senha:{
-        valueMissing:'O campo nome não pode está vazio',
-        patternMismatch:'Este campo deve conter pelo menos 1 letra Maiúscula ,1 número e não pode conter símbolos'
+        valueMissing:'O campo senha não pode está vazio',
+        patternMismatch:'Este campo deve conter de 6 a 12 caracteres e pelo menos 1 letra Maiúscula e minuscula ,1 número e não pode conter símbolos'
     },
     dataNascimento:{
-        valueMissing:'O campo nome não pode está vazio',
+        valueMissing:'O campo data de nascimento não pode está vazio',
         customError: 'Você deve ter mais que 18 anos para se cadastrar'
-
+            },
+    cpf:{
+        valueMissing:'O campo cpf não pode está vazio',
+        customError:'O cpf digitado não é valido!'
     }
+}
+
+const validadores = {
+    dataNascimento:input => validaDataNascimento(input),
+    cpf:input => validaCPF(input)
 }
 
 
@@ -63,9 +65,7 @@ function mostraMensagem(tipoDeInput,input) {
 }
 
 
-const validadores = {
-    dataNascimento:input => validaDataNascimento(input)
-}
+
 
 
 function validaDataNascimento(input){
@@ -88,32 +88,50 @@ function maiorQue18(data){
 
 
 function validaCPF(input){
-    const cpfFormatado =  input.value.replace(/\D/g,"")
-    let mensagemCpf = ''
+    const cpfFormatado =  input.value.replace(/(?:\D+)/g, '')
+    let mensagem = ''
 
-    input.setCustomValidity(mensagemCpf);
+    if(!checarCPFRepetido(cpfFormatado)){
+        mensagem = 'O cpf digitado não é valido!'
+    }
+
+    input.setCustomValidity(mensagem)
 }
 
 function checarCPFRepetido (cpf){
     const valoresRepetidos = [
-        "11111111111",
-        "22222222222",
-        "33333333333",
-        "44444444444",
-        "55555555555",
-        "66666666666",
-        "77777777777",
-        "88888888888",
-        "99999999999"
+        '00000000000',
+        '11111111111',
+        '22222222222',
+        '33333333333',
+        '44444444444',
+        '55555555555',
+        '66666666666',
+        '77777777777',
+        '88888888888',
+        '99999999999'
 
-    ];
+    ]
 
     let cpfValido = true;
 
     valoresRepetidos.forEach(valor =>{
         if(valor == cpf){
-            cpfValido=false
+            cpfValido = false
         }
     })
     return cepfValido;
+    return cpfValido;
+}
+
+function chegaEstruturaCPF(cpf){
+     const multiplicador = 10;
+
+    return checaDigitoVerificador(cpf , multiplicador)
+
+    
+}
+
+function confirmaDigito(soma){
+    return 11 - (soma % 11)
 }
