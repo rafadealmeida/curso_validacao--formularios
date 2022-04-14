@@ -120,7 +120,6 @@ function checarCPFRepetido (cpf){
             cpfValido = false
         }
     })
-    return cepfValido;
     return cpfValido;
 }
 
