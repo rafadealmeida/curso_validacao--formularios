@@ -57,6 +57,10 @@ const mensagemDeErro = {
     },
     estado:{
         valueMissing:'O campo cidade não pode está vazio'
+    },
+    preco:{
+        valueMissing:'O campo de preço não pode está vazio'
+
     }
 }
 
